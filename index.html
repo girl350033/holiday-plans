@@ -147,7 +147,7 @@ function peaksSvg(){
 
 async function loadTrips() {
   try {
-    const res = await fetch('./trips.json');
+    const res = await fetch('/holiday-plans/trips.json');
     trips = await res.json();
     render();
   } catch(e) {
