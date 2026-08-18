@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的旅行行程</title>
+<!-- 這裡保留原本 CSS -->
+</head>
+<body>
+<div class="app" id="app">載入中...</div>
+<script>
+// 讀取外部 JSON
+async function loadTrips() {
+  try {
+    const response = await fetch('trips.json');
+    const data = await response.json();
+    trips = data;
+    render();
+  } catch (e) {
+    console.error("無法讀取行程資料", e);
+  }
+}
+// (後續接原本的 render 與其他邏輯函式)
+loadTrips();
+</script>
+</body>
+</html>

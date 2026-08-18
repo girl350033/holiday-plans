@@ -1,0 +1,13 @@
+[
+  {
+    "id": "hokkaido-2026-04",
+    "title": "北海道滑雪行",
+    "dateRange": "2026/04/01 - 04/05",
+    "days": [
+      { "label": "04/01 Wed", "items": [
+        { "time": "09:00–12:15", "title": "機場到雪場", "type": "transport" },
+        { "time": "14:30–16:30", "title": "滑雪", "type": "ski" }
+      ]}
+    ]
+  }
+]
