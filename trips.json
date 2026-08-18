@@ -1,4 +1,144 @@
-[
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>旅程 · Trip Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F6F8;
+    --surface:#FFFFFF;
+    --ink:#1E2A3A;
+    --ink-soft:#5C7089;
+    --line:#E3E8ED;
+    --ski:#2E6E82;
+    --ski-bg:#E4F1F4;
+    --food:#B8562E;
+    --food-bg:#FBEBE2;
+    --transport:#5C6F8A;
+    --transport-bg:#EAEEF3;
+    --sight:#4C7A52;
+    --sight-bg:#E7F1E8;
+    --hotel:#7A5C7E;
+    --hotel-bg:#F1E9F2;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans TC','Noto Sans',sans-serif;
+    padding-bottom:40px;
+  }
+  .app{max-width:520px; margin:0 auto;}
+
+  .head{
+    padding:22px 20px 16px;
+    background:var(--surface);
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .head svg.peaks{position:absolute; left:0; right:0; bottom:0; width:100%; height:34px; opacity:.5;}
+  .trip-title{
+    font-family:'Noto Serif TC',serif;
+    font-weight:700;
+    font-size:22px;
+    margin:0 0 2px;
+    position:relative;
+  }
+  .trip-range{font-size:13px; color:var(--ink-soft); margin:0; position:relative;}
+  
+  .trip-select-box{
+    padding:14px 20px 0;
+    background:var(--surface);
+    border-bottom:1px solid var(--line);
+  }
+  .trip-dropdown{
+    width:100%;
+    padding:10px 14px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:var(--bg);
+    color:var(--ink);
+    font-size:15px;
+    font-weight:500;
+    font-family:'Noto Sans TC',sans-serif;
+    cursor:pointer;
+    outline:none;
+  }
+
+  .day-tabs{
+    display:flex; gap:6px; overflow-x:auto; padding:16px 20px 0;
+    scrollbar-width:none;
+  }
+  .day-tabs::-webkit-scrollbar{display:none;}
+  .day-tab{
+    flex:0 0 auto;
+    padding:8px 14px;
+    border-radius:10px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    cursor:pointer;
+    text-align:center;
+  }
+  .day-tab .dow{display:block; font-size:10px; color:var(--ink-soft); letter-spacing:.5px; text-transform:uppercase;}
+  .day-tab .dnum{display:block; font-size:15px; font-weight:700; font-family:'Noto Serif TC',serif;}
+  .day-tab.active{background:var(--ink); border-color:var(--ink);}
+  .day-tab.active .dow{color:#B9C4D3;}
+  .day-tab.active .dnum{color:#fff;}
+
+  .timeline{padding:18px 20px 4px; position:relative;}
+  .item{
+    display:flex; gap:12px; position:relative; padding-bottom:18px;
+  }
+  .item:last-child{padding-bottom:0;}
+  .rail{
+    display:flex; flex-direction:column; align-items:center; width:14px; flex:0 0 auto;
+  }
+  .dot{width:10px; height:10px; border-radius:50%; margin-top:5px; flex:0 0 auto;}
+  .stem{flex:1; width:1.5px; background:repeating-linear-gradient(to bottom, var(--line) 0 4px, transparent 4px 8px); margin-top:2px;}
+  .item:last-child .stem{display:none;}
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:10px 14px;
+    flex:1;
+    min-width:0;
+  }
+  .card .time{font-size:12px; color:var(--ink-soft); font-weight:500; margin-bottom:2px;}
+  .card .title{font-size:15px; font-weight:500; margin:0;}
+  .card .sub{font-size:12px; color:var(--ink-soft); margin-top:4px; line-height:1.5;}
+  .card a.mapl{
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:12px; color:var(--ski); margin-top:6px; text-decoration:none; font-weight:500;
+  }
+  .tag{
+    display:inline-block; font-size:10px; font-weight:700; letter-spacing:.5px;
+    padding:2px 8px; border-radius:100px; margin-bottom:4px;
+  }
+  .t-ski{color:var(--ski); background:var(--ski-bg);}
+  .t-food{color:var(--food); background:var(--food-bg);}
+  .t-transport{color:var(--transport); background:var(--transport-bg);}
+  .t-sight{color:var(--sight); background:var(--sight-bg);}
+  .t-hotel{color:var(--hotel); background:var(--hotel-bg);}
+  .dot.t-ski{background:var(--ski);}
+  .dot.t-food{background:var(--food);}
+  .dot.t-transport{background:var(--transport);}
+  .dot.t-sight{background:var(--sight);}
+  .dot.t-hotel{background:var(--hotel);}
+  .empty{padding:40px 20px; text-align:center; color:var(--ink-soft); font-size:13px;}
+</style>
+</head>
+<body>
+<div class="app" id="app">載入行程中...</div>
+
+<script>
+// 所有行程資料直接內嵌在這裡，絕對不會讀取失敗
+const trips = [
   {
     "id": "hokkaido-2026-04",
     "title": "北海道滑雪行",
@@ -31,7 +171,7 @@
     "id": "perth-2025-06",
     "title": "西澳自駕行",
     "dateRange": "2025/06/28 - 07/06",
-    days: [
+    "days": [
       { "label": "06/28 Sat", "items": [
         { "time": "01:55–06:50", "title": "TPE to SIN", "type": "transport" },
         { "time": "12:00–17:10", "title": "SIN to PER", "type": "transport" },
@@ -74,7 +214,7 @@
     "id": "singapore-2022-10",
     "title": "新加坡行",
     "dateRange": "2022/10/31 - 11/05",
-    days: [
+    "days": [
       { "label": "10/31 Mon", "items": [
         { "time": "16:10–20:55", "title": "Scoot TR899", "type": "transport" },
         { "time": "Check in", "title": "lyf Farrer Park", "type": "hotel" }
@@ -100,4 +240,82 @@
       ]}
     ]
   }
-]
+];
+
+let activeTripIdx = 0;
+let activeDayIdx = 0;
+const typeLabel = { ski:'滑雪', food:'餐飲', transport:'交通', sight:'景點', hotel:'住宿' };
+
+function peaksSvg(){
+  return '<svg class="peaks" viewBox="0 0 400 34" preserveAspectRatio="none"><polyline points="0,34 40,12 80,26 130,6 180,24 230,10 280,28 330,14 400,26 400,34 0,34" fill="none" stroke="#B9C4D3" stroke-width="1.2"/></svg>';
+}
+
+function render(){
+  const app = document.getElementById('app');
+  if(!trips.length){
+    app.innerHTML = '<div class="empty">尚未有任何行程。</div>';
+    return;
+  }
+  const trip = trips[activeTripIdx];
+  if(activeDayIdx >= trip.days.length) activeDayIdx = 0;
+  const day = trip.days[activeDayIdx];
+
+  let html = '';
+  html += '<div class="head">' + peaksSvg();
+  html += '<p class="trip-title">' + esc(trip.title) + '</p>';
+  html += '<p class="trip-range">' + esc(trip.dateRange||'') + '</p>';
+  html += '</div>';
+
+  html += '<div class="trip-select-box"><select class="trip-dropdown" id="tripSelect">';
+  trips.forEach((t,i)=>{
+    html += '<option value="'+i+'" '+(i===activeTripIdx?'selected':'')+'>'+esc(t.title)+' ('+esc(t.dateRange)+')</option>';
+  });
+  html += '</select></div>';
+
+  html += '<div class="day-tabs">';
+  trip.days.forEach((d,i)=>{
+    const parts = d.label.split(' ');
+    html += '<div class="day-tab'+(i===activeDayIdx?' active':'')+'" data-dayidx="'+i+'">' +
+      '<span class="dow">'+esc(parts[1]||'')+'</span><span class="dnum">'+esc(parts[0]||d.label)+'</span></div>';
+  });
+  html += '</div>';
+
+  html += '<div class="timeline">';
+  if(day.items && day.items.length){
+    day.items.forEach(it=>{
+      const type = it.type && typeLabel[it.type] ? it.type : 'sight';
+      html += '<div class="item"><div class="rail"><div class="dot t-'+type+'"></div><div class="stem"></div></div>';
+      html += '<div class="card">';
+      html += '<span class="tag t-'+type+'">'+typeLabel[type]+'</span>';
+      html += '<div class="time">'+esc(it.time||'')+'</div>';
+      html += '<p class="title">'+esc(it.title||'')+'</p>';
+      if(it.sub) html += '<div class="sub">'+esc(it.sub)+'</div>';
+      if(it.link) html += '<a class="mapl" href="'+esc(it.link)+'" target="_blank" rel="noopener">開啟地圖 ↗</a>';
+      html += '</div></div>';
+    });
+  } else {
+    html += '<div class="empty">這天還沒有安排。</div>';
+  }
+  html += '</div>';
+
+  app.innerHTML = html;
+
+  document.getElementById('tripSelect').addEventListener('change', (e)=>{
+    activeTripIdx = parseInt(e.target.value);
+    activeDayIdx = 0;
+    render();
+  });
+
+  app.querySelectorAll('[data-dayidx]').forEach(el=>{
+    el.addEventListener('click', ()=>{ activeDayIdx = parseInt(el.dataset.dayidx); render(); });
+  });
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+render();
+</script>
+</body>
+</html>
