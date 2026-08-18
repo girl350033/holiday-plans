@@ -51,7 +51,6 @@
   }
   .trip-range{font-size:13px; color:var(--ink-soft); margin:0; position:relative;}
   
-  /* 下拉選單樣式 */
   .trip-select-box{
     padding:14px 20px 0;
     background:var(--surface);
@@ -138,23 +137,117 @@
 <div class="app" id="app">載入行程中...</div>
 
 <script>
-let trips = [];
+// 所有行程資料直接內嵌在這裡，100% 不會讀取失敗
+const trips = [
+  {
+    "id": "hokkaido-2026-04",
+    "title": "北海道滑雪行",
+    "dateRange": "2026/04/01 - 04/05",
+    "days": [
+      { "label": "04/01 Wed", "items": [
+        { "time": "09:00–12:15", "title": "機場到雪場", "type": "transport" },
+        { "time": "12:15–12:45", "title": "計程車", "type": "transport" },
+        { "time": "14:30–16:30", "title": "滑雪", "type": "ski" },
+        { "time": "17:00–19:00", "title": "晚餐", "type": "food" },
+        { "time": "—", "title": "住宿地點", "type": "hotel", "sub": "Niseko Hirafu", "link": "https://maps.app.goo.gl/qc9TnJmJfuFfyms97" }
+      ]},
+      { "label": "04/02 Thur", "items": [{ "time": "全天", "title": "滑雪", "type": "ski" }] },
+      { "label": "04/03 Fri", "items": [
+        { "time": "08:30–16:00", "title": "滑雪", "type": "ski" },
+        { "time": "18:30–21:00", "title": "回札幌", "type": "transport" },
+        { "time": "—", "title": "東急Stay札幌", "type": "hotel" }
+      ]},
+      { "label": "04/04 Sat", "items": [
+        { "time": "09:00–10:00", "title": "海膽專門店", "type": "food" },
+        { "time": "10:13–10:58", "title": "小樽站", "type": "sight" }
+      ]},
+      { "label": "04/05 Sun", "items": [
+        { "time": "10:00–11:00", "title": "二條市場、貍小路", "type": "sight" },
+        { "time": "13:00–15:30", "title": "札幌車站", "type": "sight" }
+      ]}
+    ]
+  },
+  {
+    "id": "perth-2025-06",
+    "title": "西澳自駕行",
+    "dateRange": "2025/06/28 - 07/06",
+    "days": [
+      { "label": "06/28 Sat", "items": [
+        { "time": "01:55–06:50", "title": "TPE to SIN", "type": "transport" },
+        { "time": "12:00–17:10", "title": "SIN to PER", "type": "transport" },
+        { "time": "—", "title": "住宿地點", "type": "hotel", "sub": "Rivervale" }
+      ]},
+      { "label": "06/29 Sun", "items": [
+        { "time": "10:30–11:30", "title": "Cape Leeuwin Lighthouse", "type": "sight" },
+        { "time": "11:30–15:00", "title": "Mammoth Cave", "type": "sight" }
+      ]},
+      { "label": "06/30 Mon", "items": [
+        { "time": "—", "title": "Rottnest Island Day Trip", "type": "sight" },
+        { "time": "07:30–08:00", "title": "Fremantle B Shed", "type": "transport" }
+      ]},
+      { "label": "07/01 Tue", "items": [
+        { "time": "—", "title": "The Pinnacles Desert", "type": "sight" },
+        { "time": "12:00–14:00", "title": "Lobster Shack Cervantes", "type": "food" }
+      ]},
+      { "label": "07/02 Wed", "items": [
+        { "time": "—", "title": "Kalbarri National Park", "type": "sight" },
+        { "time": "—", "title": "Nature's Window, Skywalk", "type": "sight" }
+      ]},
+      { "label": "07/03 Thur", "items": [
+        { "time": "09:10–10:30", "title": "Hutt Lagoon Pink Lake", "type": "sight" },
+        { "time": "15:00–16:00", "title": "Jurien Bay", "type": "sight" }
+      ]},
+      { "label": "07/04 Fri", "items": [
+        { "time": "—", "title": "Fremantle Market", "type": "sight" },
+        { "time": "—", "title": "Kings Park", "type": "sight" }
+      ]},
+      { "label": "07/05 Sat", "items": [
+        { "time": "—", "title": "Woolies / Kmart / Big W", "type": "sight" },
+        { "time": "18:30–19:00", "title": "to Airport", "type": "transport" }
+      ]},
+      { "label": "07/06 Sun", "items": [
+        { "time": "11:45", "title": "TPE T1", "type": "transport" }
+      ]}
+    ]
+  },
+  {
+    "id": "singapore-2022-10",
+    "title": "新加坡行",
+    "dateRange": "2022/10/31 - 11/05",
+    "days": [
+      { "label": "10/31 Mon", "items": [
+        { "time": "16:10–20:55", "title": "Scoot TR899", "type": "transport" },
+        { "time": "Check in", "title": "lyf Farrer Park", "type": "hotel" }
+      ]},
+      { "label": "11/01 Tue", "items": [
+        { "time": "09:30–10:30", "title": "魚尾獅公園 Merlion Park", "type": "sight" },
+        { "time": "18:30–23:00", "title": "夜間動物園", "type": "sight" }
+      ]},
+      { "label": "11/02 Wed", "items": [
+        { "time": "10:30–16:00", "title": "環球影城", "type": "sight" },
+        { "time": "16:30–19:30", "title": "牛車水", "type": "sight" }
+      ]},
+      { "label": "11/03 Thur", "items": [
+        { "time": "12:00–19:30", "title": "搭纜車 Cable Car", "type": "transport" },
+        { "time": "—", "title": "聖淘沙 Sentosa", "type": "sight" }
+      ]},
+      { "label": "11/04 Fri", "items": [
+        { "time": "10:00–12:00", "title": "小印度 Little India", "type": "sight" },
+        { "time": "16:00–21:00", "title": "克拉碼頭 Clarke Quay", "type": "sight" }
+      ]},
+      { "label": "11/05 Sat", "items": [
+        { "time": "02:00–13:00", "title": "Scoot TR2 (SIN–SYD)", "type": "transport" }
+      ]}
+    ]
+  }
+];
+
 let activeTripIdx = 0;
 let activeDayIdx = 0;
 const typeLabel = { ski:'滑雪', food:'餐飲', transport:'交通', sight:'景點', hotel:'住宿' };
 
 function peaksSvg(){
   return '<svg class="peaks" viewBox="0 0 400 34" preserveAspectRatio="none"><polyline points="0,34 40,12 80,26 130,6 180,24 230,10 280,28 330,14 400,26 400,34 0,34" fill="none" stroke="#B9C4D3" stroke-width="1.2"/></svg>';
-}
-
-async function loadTrips() {
-  try {
-    const res = await fetch('./trips.json');
-    trips = await res.json();
-    render();
-  } catch(e) {
-    document.getElementById('app').innerHTML = '<div class="empty">讀取行程失敗，請檢查 trips.json。</div>';
-  }
 }
 
 function render(){
@@ -173,7 +266,6 @@ function render(){
   html += '<p class="trip-range">' + esc(trip.dateRange||'') + '</p>';
   html += '</div>';
 
-  // 下拉選單區塊
   html += '<div class="trip-select-box"><select class="trip-dropdown" id="tripSelect">';
   trips.forEach((t,i)=>{
     html += '<option value="'+i+'" '+(i===activeTripIdx?'selected':'')+'>'+esc(t.title)+' ('+esc(t.dateRange)+')</option>';
@@ -208,7 +300,6 @@ function render(){
 
   app.innerHTML = html;
 
-  // 綁定下拉選單事件
   document.getElementById('tripSelect').addEventListener('change', (e)=>{
     activeTripIdx = parseInt(e.target.value);
     activeDayIdx = 0;
@@ -224,7 +315,7 @@ function esc(s){
   return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-loadTrips();
+render();
 </script>
 </body>
 </html>
