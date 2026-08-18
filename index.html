@@ -50,24 +50,26 @@
     position:relative;
   }
   .trip-range{font-size:13px; color:var(--ink-soft); margin:0; position:relative;}
-  .trip-picker{
-    display:flex; gap:8px; overflow-x:auto; padding:12px 20px 0;
-    scrollbar-width:none;
+  
+  /* 下拉選單樣式 */
+  .trip-select-box{
+    padding:14px 20px 0;
+    background:var(--surface);
+    border-bottom:1px solid var(--line);
   }
-  .trip-picker::-webkit-scrollbar{display:none;}
-  .trip-pill{
-    flex:0 0 auto;
-    padding:6px 14px;
-    border-radius:100px;
-    font-size:13px;
-    font-weight:500;
-    background:var(--bg);
-    color:var(--ink-soft);
+  .trip-dropdown{
+    width:100%;
+    padding:10px 14px;
+    border-radius:12px;
     border:1px solid var(--line);
+    background:var(--bg);
+    color:var(--ink);
+    font-size:15px;
+    font-weight:500;
+    font-family:'Noto Sans TC',sans-serif;
     cursor:pointer;
-    white-space:nowrap;
+    outline:none;
   }
-  .trip-pill.active{background:var(--ink); color:#fff; border-color:var(--ink);}
 
   .day-tabs{
     display:flex; gap:6px; overflow-x:auto; padding:16px 20px 0;
@@ -147,7 +149,7 @@ function peaksSvg(){
 
 async function loadTrips() {
   try {
-    const res = await fetch('/holiday-plans/trips.json');
+    const res = await fetch('./trips.json');
     trips = await res.json();
     render();
   } catch(e) {
@@ -171,11 +173,12 @@ function render(){
   html += '<p class="trip-range">' + esc(trip.dateRange||'') + '</p>';
   html += '</div>';
 
-  html += '<div class="trip-picker">';
+  // 下拉選單區塊
+  html += '<div class="trip-select-box"><select class="trip-dropdown" id="tripSelect">';
   trips.forEach((t,i)=>{
-    html += '<div class="trip-pill' + (i===activeTripIdx?' active':'') + '" data-tripidx="'+i+'">' + esc(t.title) + '</div>';
+    html += '<option value="'+i+'" '+(i===activeTripIdx?'selected':'')+'>'+esc(t.title)+' ('+esc(t.dateRange)+')</option>';
   });
-  html += '</div>';
+  html += '</select></div>';
 
   html += '<div class="day-tabs">';
   trip.days.forEach((d,i)=>{
@@ -205,9 +208,13 @@ function render(){
 
   app.innerHTML = html;
 
-  app.querySelectorAll('[data-tripidx]').forEach(el=>{
-    el.addEventListener('click', ()=>{ activeTripIdx = parseInt(el.dataset.tripidx); activeDayIdx = 0; render(); });
+  // 綁定下拉選單事件
+  document.getElementById('tripSelect').addEventListener('change', (e)=>{
+    activeTripIdx = parseInt(e.target.value);
+    activeDayIdx = 0;
+    render();
   });
+
   app.querySelectorAll('[data-dayidx]').forEach(el=>{
     el.addEventListener('click', ()=>{ activeDayIdx = parseInt(el.dataset.dayidx); render(); });
   });
