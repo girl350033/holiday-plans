@@ -26,63 +26,37 @@
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   body{
-    margin:0;
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Noto Sans TC','Noto Sans',sans-serif;
-    padding-bottom:40px;
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Noto Sans TC','Noto Sans',sans-serif; padding-bottom:60px;
   }
   .app{max-width:520px; margin:0 auto;}
 
   .head{
-    padding:22px 20px 16px;
-    background:var(--surface);
-    border-bottom:1px solid var(--line);
-    position:relative;
-    overflow:hidden;
+    padding:22px 20px 16px; background:var(--surface);
+    border-bottom:1px solid var(--line); position:relative; overflow:hidden;
   }
   .head svg.peaks{position:absolute; left:0; right:0; bottom:0; width:100%; height:34px; opacity:.5;}
-  .trip-title{
-    font-family:'Noto Serif TC',serif;
-    font-weight:700;
-    font-size:22px;
-    margin:0 0 2px;
-    position:relative;
-  }
-  .trip-range{font-size:13px; color:var(--ink-soft); margin:0; position:relative;}
+  .trip-title{font-family:'Noto Serif TC',serif; font-weight:700; font-size:22px; margin:0 0 2px;}
+  .trip-range{font-size:13px; color:var(--ink-soft); margin:0;}
   
-  .trip-select-box{
-    padding:14px 20px 0;
-    background:var(--surface);
-    border-bottom:1px solid var(--line);
+  .top-bar{
+    display:flex; gap:8px; padding:12px 20px 0; background:var(--surface);
+    border-bottom:1px solid var(--line); align-items:center; padding-bottom:12px;
   }
   .trip-dropdown{
-    width:100%;
-    padding:10px 14px;
-    border-radius:12px;
-    border:1px solid var(--line);
-    background:var(--bg);
-    color:var(--ink);
-    font-size:15px;
-    font-weight:500;
-    font-family:'Noto Sans TC',sans-serif;
-    cursor:pointer;
-    outline:none;
+    flex:1; padding:10px 14px; border-radius:12px; border:1px solid var(--line);
+    background:var(--bg); color:var(--ink); font-size:15px; font-weight:500; outline:none; cursor:pointer;
+  }
+  .edit-btn{
+    padding:10px 14px; border-radius:12px; border:1px solid var(--line);
+    background:var(--ink); color:#fff; font-size:14px; font-weight:500; cursor:pointer; white-space:nowrap;
   }
 
-  .day-tabs{
-    display:flex; gap:6px; overflow-x:auto; padding:16px 20px 0;
-    scrollbar-width:none;
-  }
+  .day-tabs{display:flex; gap:6px; overflow-x:auto; padding:16px 20px 0; scrollbar-width:none;}
   .day-tabs::-webkit-scrollbar{display:none;}
   .day-tab{
-    flex:0 0 auto;
-    padding:8px 14px;
-    border-radius:10px;
-    background:var(--surface);
-    border:1px solid var(--line);
-    cursor:pointer;
-    text-align:center;
+    flex:0 0 auto; padding:8px 14px; border-radius:10px;
+    background:var(--surface); border:1px solid var(--line); cursor:pointer; text-align:center;
   }
   .day-tab .dow{display:block; font-size:10px; color:var(--ink-soft); letter-spacing:.5px; text-transform:uppercase;}
   .day-tab .dnum{display:block; font-size:15px; font-weight:700; font-family:'Noto Serif TC',serif;}
@@ -91,54 +65,80 @@
   .day-tab.active .dnum{color:#fff;}
 
   .timeline{padding:18px 20px 4px; position:relative;}
-  .item{
-    display:flex; gap:12px; position:relative; padding-bottom:18px;
-  }
+  .item{display:flex; gap:12px; position:relative; padding-bottom:18px;}
   .item:last-child{padding-bottom:0;}
-  .rail{
-    display:flex; flex-direction:column; align-items:center; width:14px; flex:0 0 auto;
-  }
+  .rail{display:flex; flex-direction:column; align-items:center; width:14px; flex:0 0 auto;}
   .dot{width:10px; height:10px; border-radius:50%; margin-top:5px; flex:0 0 auto;}
   .stem{flex:1; width:1.5px; background:repeating-linear-gradient(to bottom, var(--line) 0 4px, transparent 4px 8px); margin-top:2px;}
   .item:last-child .stem{display:none;}
-  .card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:10px 14px;
-    flex:1;
-    min-width:0;
-  }
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:10px 14px; flex:1; min-width:0;}
   .card .time{font-size:12px; color:var(--ink-soft); font-weight:500; margin-bottom:2px;}
   .card .title{font-size:15px; font-weight:500; margin:0;}
   .card .sub{font-size:12px; color:var(--ink-soft); margin-top:4px; line-height:1.5;}
-  .card a.mapl{
-    display:inline-flex; align-items:center; gap:4px;
-    font-size:12px; color:var(--ski); margin-top:6px; text-decoration:none; font-weight:500;
-  }
-  .tag{
-    display:inline-block; font-size:10px; font-weight:700; letter-spacing:.5px;
-    padding:2px 8px; border-radius:100px; margin-bottom:4px;
-  }
+  .card a.mapl{display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--ski); margin-top:6px; text-decoration:none; font-weight:500;}
+  
+  .tag{display:inline-block; font-size:10px; font-weight:700; letter-spacing:.5px; padding:2px 8px; border-radius:100px; margin-bottom:4px;}
   .t-ski{color:var(--ski); background:var(--ski-bg);}
   .t-food{color:var(--food); background:var(--food-bg);}
   .t-transport{color:var(--transport); background:var(--transport-bg);}
   .t-sight{color:var(--sight); background:var(--sight-bg);}
   .t-hotel{color:var(--hotel); background:var(--hotel-bg);}
-  .dot.t-ski{background:var(--ski);}
-  .dot.t-food{background:var(--food);}
-  .dot.t-transport{background:var(--transport);}
-  .dot.t-sight{background:var(--sight);}
-  .dot.t-hotel{background:var(--hotel);}
+  .dot.t-ski{background:var(--ski);} .dot.t-food{background:var(--food);} .dot.t-transport{background:var(--transport);} .dot.t-sight{background:var(--sight);} .dot.t-hotel{background:var(--hotel);}
+  
   .empty{padding:40px 20px; text-align:center; color:var(--ink-soft); font-size:13px;}
+
+  /* 編輯器 Modal 樣式 */
+  .modal-mask{position:fixed; inset:0; background:rgba(20,28,40,.5); display:none; align-items:center; justify-content:center; z-index:100; padding:20px;}
+  .modal-mask.open{display:flex;}
+  .modal{background:var(--surface); width:100%; max-width:500px; border-radius:16px; padding:20px; max-height:90vh; overflow-y:auto;}
+  .modal h3{margin:0 0 10px; font-family:'Noto Serif TC',serif; font-size:18px;}
+  .form-group{margin-bottom:12px;}
+  .form-group label{display:block; font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:4px;}
+  .form-group input, .form-group textarea{
+    width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:14px; outline:none; background:var(--bg); color:var(--ink);
+  }
+  .modal .btn-row{display:flex; gap:10px; margin-top:16px;}
+  .modal button{flex:1; padding:11px; border-radius:8px; border:1px solid var(--line); font-size:14px; font-weight:500; cursor:pointer;}
+  .modal button.primary{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .modal button.danger{background:#B8562E; color:#fff; border-color:#B8562E;}
 </style>
 </head>
 <body>
 <div class="app" id="app">載入行程中...</div>
 
+<!-- 編輯器彈窗 -->
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <h3 id="modalTitle">編輯行程</h3>
+    
+    <div class="form-group">
+      <label>行程名稱 (Title)</label>
+      <input type="text" id="inputTitle" placeholder="例如：2026 東京賞櫻行">
+    </div>
+    <div class="form-group">
+      <label>日期範圍 (Date Range)</label>
+      <input type="text" id="inputRange" placeholder="例如：2026/04/10 - 04/14">
+    </div>
+    <div class="form-group">
+      <label>行程細項 (JSON 格式)</label>
+      <textarea id="inputJson" rows="10" placeholder='請在此輸入或貼上結構化的 JSON 行程內容'></textarea>
+    </div>
+
+    <div class="err" id="modalErr" style="color:var(--food); font-size:12px; display:none; margin-bottom:8px;">JSON 格式有誤，請再檢查一次括號或引號。</div>
+    
+    <div class="btn-row">
+      <button id="closeModal">取消</button>
+      <button class="danger" id="deleteTrip" style="display:none;">刪除此行程</button>
+      <button class="primary" id="saveTrip">儲存更新</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// 所有行程資料直接內嵌在這裡，100% 不會讀取失敗
-const trips = [
+const STORAGE_KEY = 'my_custom_trips_v1';
+
+// 預設行程（當瀏覽器沒有資料時載入）
+const defaultTrips = [
   {
     "id": "hokkaido-2026-04",
     "title": "北海道滑雪行",
@@ -146,102 +146,15 @@ const trips = [
     "days": [
       { "label": "04/01 Wed", "items": [
         { "time": "09:00–12:15", "title": "機場到雪場", "type": "transport" },
-        { "time": "12:15–12:45", "title": "計程車", "type": "transport" },
         { "time": "14:30–16:30", "title": "滑雪", "type": "ski" },
-        { "time": "17:00–19:00", "title": "晚餐", "type": "food" },
-        { "time": "—", "title": "住宿地點", "type": "hotel", "sub": "Niseko Hirafu", "link": "https://maps.app.goo.gl/qc9TnJmJfuFfyms97" }
+        { "time": "—", "title": "Niseko Hirafu 住宿", "type": "hotel", "link": "https://maps.app.goo.gl/qc9TnJmJfuFfyms97" }
       ]},
-      { "label": "04/02 Thur", "items": [{ "time": "全天", "title": "滑雪", "type": "ski" }] },
-      { "label": "04/03 Fri", "items": [
-        { "time": "08:30–16:00", "title": "滑雪", "type": "ski" },
-        { "time": "18:30–21:00", "title": "回札幌", "type": "transport" },
-        { "time": "—", "title": "東急Stay札幌", "type": "hotel" }
-      ]},
-      { "label": "04/04 Sat", "items": [
-        { "time": "09:00–10:00", "title": "海膽專門店", "type": "food" },
-        { "time": "10:13–10:58", "title": "小樽站", "type": "sight" }
-      ]},
-      { "label": "04/05 Sun", "items": [
-        { "time": "10:00–11:00", "title": "二條市場、貍小路", "type": "sight" },
-        { "time": "13:00–15:30", "title": "札幌車站", "type": "sight" }
-      ]}
-    ]
-  },
-  {
-    "id": "perth-2025-06",
-    "title": "西澳自駕行",
-    "dateRange": "2025/06/28 - 07/06",
-    "days": [
-      { "label": "06/28 Sat", "items": [
-        { "time": "01:55–06:50", "title": "TPE to SIN", "type": "transport" },
-        { "time": "12:00–17:10", "title": "SIN to PER", "type": "transport" },
-        { "time": "—", "title": "住宿地點", "type": "hotel", "sub": "Rivervale" }
-      ]},
-      { "label": "06/29 Sun", "items": [
-        { "time": "10:30–11:30", "title": "Cape Leeuwin Lighthouse", "type": "sight" },
-        { "time": "11:30–15:00", "title": "Mammoth Cave", "type": "sight" }
-      ]},
-      { "label": "06/30 Mon", "items": [
-        { "time": "—", "title": "Rottnest Island Day Trip", "type": "sight" },
-        { "time": "07:30–08:00", "title": "Fremantle B Shed", "type": "transport" }
-      ]},
-      { "label": "07/01 Tue", "items": [
-        { "time": "—", "title": "The Pinnacles Desert", "type": "sight" },
-        { "time": "12:00–14:00", "title": "Lobster Shack Cervantes", "type": "food" }
-      ]},
-      { "label": "07/02 Wed", "items": [
-        { "time": "—", "title": "Kalbarri National Park", "type": "sight" },
-        { "time": "—", "title": "Nature's Window, Skywalk", "type": "sight" }
-      ]},
-      { "label": "07/03 Thur", "items": [
-        { "time": "09:10–10:30", "title": "Hutt Lagoon Pink Lake", "type": "sight" },
-        { "time": "15:00–16:00", "title": "Jurien Bay", "type": "sight" }
-      ]},
-      { "label": "07/04 Fri", "items": [
-        { "time": "—", "title": "Fremantle Market", "type": "sight" },
-        { "time": "—", "title": "Kings Park", "type": "sight" }
-      ]},
-      { "label": "07/05 Sat", "items": [
-        { "time": "—", "title": "Woolies / Kmart / Big W", "type": "sight" },
-        { "time": "18:30–19:00", "title": "to Airport", "type": "transport" }
-      ]},
-      { "label": "07/06 Sun", "items": [
-        { "time": "11:45", "title": "TPE T1", "type": "transport" }
-      ]}
-    ]
-  },
-  {
-    "id": "singapore-2022-10",
-    "title": "新加坡行",
-    "dateRange": "2022/10/31 - 11/05",
-    "days": [
-      { "label": "10/31 Mon", "items": [
-        { "time": "16:10–20:55", "title": "Scoot TR899", "type": "transport" },
-        { "time": "Check in", "title": "lyf Farrer Park", "type": "hotel" }
-      ]},
-      { "label": "11/01 Tue", "items": [
-        { "time": "09:30–10:30", "title": "魚尾獅公園 Merlion Park", "type": "sight" },
-        { "time": "18:30–23:00", "title": "夜間動物園", "type": "sight" }
-      ]},
-      { "label": "11/02 Wed", "items": [
-        { "time": "10:30–16:00", "title": "環球影城", "type": "sight" },
-        { "time": "16:30–19:30", "title": "牛車水", "type": "sight" }
-      ]},
-      { "label": "11/03 Thur", "items": [
-        { "time": "12:00–19:30", "title": "搭纜車 Cable Car", "type": "transport" },
-        { "time": "—", "title": "聖淘沙 Sentosa", "type": "sight" }
-      ]},
-      { "label": "11/04 Fri", "items": [
-        { "time": "10:00–12:00", "title": "小印度 Little India", "type": "sight" },
-        { "time": "16:00–21:00", "title": "克拉碼頭 Clarke Quay", "type": "sight" }
-      ]},
-      { "label": "11/05 Sat", "items": [
-        { "time": "02:00–13:00", "title": "Scoot TR2 (SIN–SYD)", "type": "transport" }
-      ]}
+      { "label": "04/02 Thur", "items": [{ "time": "全天", "title": "滑雪", "type": "ski" }] }
     ]
   }
 ];
 
+let trips = [];
 let activeTripIdx = 0;
 let activeDayIdx = 0;
 const typeLabel = { ski:'滑雪', food:'餐飲', transport:'交通', sight:'景點', hotel:'住宿' };
@@ -250,12 +163,32 @@ function peaksSvg(){
   return '<svg class="peaks" viewBox="0 0 400 34" preserveAspectRatio="none"><polyline points="0,34 40,12 80,26 130,6 180,24 230,10 280,28 330,14 400,26 400,34 0,34" fill="none" stroke="#B9C4D3" stroke-width="1.2"/></svg>';
 }
 
+// 載入資料（優先從瀏覽器記憶體讀取）
+function loadTrips() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try {
+      trips = JSON.parse(saved);
+    } catch(e) {
+      trips = defaultTrips;
+    }
+  } else {
+    trips = defaultTrips;
+  }
+  render();
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(trips));
+}
+
 function render(){
   const app = document.getElementById('app');
   if(!trips.length){
-    app.innerHTML = '<div class="empty">尚未有任何行程。</div>';
+    app.innerHTML = '<div class="empty">尚未有任何行程，請點擊右上角「➕ 新增行程」。</div>';
     return;
   }
+  if(activeTripIdx >= trips.length) activeTripIdx = 0;
   const trip = trips[activeTripIdx];
   if(activeDayIdx >= trip.days.length) activeDayIdx = 0;
   const day = trip.days[activeDayIdx];
@@ -266,11 +199,15 @@ function render(){
   html += '<p class="trip-range">' + esc(trip.dateRange||'') + '</p>';
   html += '</div>';
 
-  html += '<div class="trip-select-box"><select class="trip-dropdown" id="tripSelect">';
+  // 下拉選單與編輯/新增按鈕
+  html += '<div class="top-bar"><select class="trip-dropdown" id="tripSelect">';
   trips.forEach((t,i)=>{
     html += '<option value="'+i+'" '+(i===activeTripIdx?'selected':'')+'>'+esc(t.title)+' ('+esc(t.dateRange)+')</option>';
   });
-  html += '</select></div>';
+  html += '</select>';
+  html += '<button class="edit-btn" id="editTripBtn" style="background:#5C7089;">✏️ 編輯</button>';
+  html += '<button class="edit-btn" id="addTripBtn">➕ 新增</button>';
+  html += '</div>';
 
   html += '<div class="day-tabs">';
   trip.days.forEach((d,i)=>{
@@ -300,10 +237,19 @@ function render(){
 
   app.innerHTML = html;
 
+  // 事件綁定
   document.getElementById('tripSelect').addEventListener('change', (e)=>{
     activeTripIdx = parseInt(e.target.value);
     activeDayIdx = 0;
     render();
+  });
+
+  document.getElementById('editTripBtn').addEventListener('click', ()=>{
+    openModal(false);
+  });
+
+  document.getElementById('addTripBtn').addEventListener('click', ()=>{
+    openModal(true);
   });
 
   app.querySelectorAll('[data-dayidx]').forEach(el=>{
@@ -311,11 +257,76 @@ function render(){
   });
 }
 
+let isCreatingNew = false;
+
+function openModal(isNew){
+  isCreatingNew = isNew;
+  document.getElementById('modalErr').style.display = 'none';
+  const deleteBtn = document.getElementById('deleteTrip');
+  
+  if(isNew){
+    document.getElementById('modalTitle').innerText = '新增全新行程';
+    document.getElementById('inputTitle').value = '';
+    document.getElementById('inputRange').value = '';
+    document.getElementById('inputJson').value = JSON.stringify([
+      { "label": "01/01 Wed", "items": [{ "time": "09:00", "title": "出發", "type": "transport" }] }
+    ], null, 2);
+    deleteBtn.style.display = 'none';
+  } else {
+    document.getElementById('modalTitle').innerText = '編輯目前行程';
+    const trip = trips[activeTripIdx];
+    document.getElementById('inputTitle').value = trip.title;
+    document.getElementById('inputRange').value = trip.dateRange;
+    document.getElementById('inputJson').value = JSON.stringify(trip.days, null, 2);
+    deleteBtn.style.display = 'block';
+  }
+  document.getElementById('modalMask').classList.add('open');
+}
+
+document.getElementById('closeModal').addEventListener('click', ()=>{
+  document.getElementById('modalMask').classList.remove('open');
+});
+
+document.getElementById('saveTrip').addEventListener('click', ()=>{
+  try {
+    const title = document.getElementById('inputTitle').value.trim();
+    const range = document.getElementById('inputRange').value.trim();
+    const days = JSON.parse(document.getElementById('inputJson').value);
+    
+    if(!title) throw new Error('請輸入標題');
+
+    if(isCreatingNew){
+      trips.push({ id: 'trip-' + Date.now(), title, dateRange: range, days });
+      activeTripIdx = trips.length - 1;
+    } else {
+      trips[activeTripIdx] = { ...trips[activeTripIdx], title, dateRange: range, days };
+    }
+
+    saveToLocalStorage(); // 直接自動存在瀏覽器！
+    document.getElementById('modalMask').classList.remove('open');
+    activeDayIdx = 0;
+    render();
+  } catch(e) {
+    document.getElementById('modalErr').style.display = 'block';
+  }
+});
+
+document.getElementById('deleteTrip').addEventListener('click', ()=>{
+  if(confirm('確定要刪除這個行程嗎？')){
+    trips.splice(activeTripIdx, 1);
+    saveToLocalStorage();
+    activeTripIdx = 0;
+    activeDayIdx = 0;
+    document.getElementById('modalMask').classList.remove('open');
+    render();
+  }
+});
+
 function esc(s){
   return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-render();
+loadTrips();
 </script>
 </body>
 </html>
