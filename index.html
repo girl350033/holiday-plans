@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>曼谷四天三夜經典攻略 & 智慧記帳本</title>
+<title>曼谷四天三夜</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -23,10 +23,6 @@
     --transport-bg: #DBEAFE;
     --hotel: #8B5CF6;
     --hotel-bg: #EDE9FE;
-    --shop: #EC4899;
-    --shop-bg: #FCE7F3;
-    --other: #64748B;
-    --other-bg: #F1F5F9;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
@@ -35,7 +31,6 @@
   }
   .container { max-width: 600px; margin: 0 auto; padding: 0 16px; }
 
-  /* 頂部標題列 */
   .header {
     background: linear-gradient(135deg, #0284C7, #0EA5E9);
     color: #fff; padding: 24px 20px; border-radius: 0 0 24px 24px;
@@ -44,7 +39,6 @@
   .header h1 { font-family: 'Noto Serif TC', serif; font-size: 22px; margin: 0 0 4px; }
   .header p { font-size: 13px; margin: 0; opacity: 0.9; }
 
-  /* 頁籤切換 (行程 vs 記帳) */
   .nav-tabs {
     display: flex; gap: 8px; margin: 16px 0; background: #E2E8F0; padding: 4px; border-radius: 12px;
   }
@@ -54,11 +48,9 @@
   }
   .nav-tab.active { background: var(--surface); color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
 
-  /* 區塊顯示控制 */
   .section-view { display: none; }
   .section-view.active { display: block; }
 
-  /* 天數 Tabs */
   .day-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 12px; scrollbar-width: none; }
   .day-tabs::-webkit-scrollbar { display: none; }
   .day-tab {
@@ -70,7 +62,6 @@
   .day-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
   .day-tab.active .dow { color: #E0F2FE; }
 
-  /* 時間軸卡片 */
   .timeline { position: relative; padding-top: 8px; }
   .item { display: flex; gap: 12px; position: relative; padding-bottom: 16px; }
   .rail { display: flex; flex-direction: column; align-items: center; width: 12px; flex: 0 0 auto; }
@@ -101,7 +92,6 @@
     text-decoration: none; font-weight: 500; background: var(--primary-bg); padding: 4px 10px; border-radius: 6px;
   }
 
-  /* 記帳本樣式 */
   .expense-summary {
     background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 16px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.02);
@@ -126,7 +116,6 @@
     font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 4px;
   }
 
-  /* 記帳列表 */
   .expense-item {
     background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px;
     margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
@@ -151,23 +140,19 @@
 </div>
 
 <div class="container">
-  <!-- 上方主頁籤切換 -->
   <div class="nav-tabs">
     <div class="nav-tab active" onclick="switchSection('itinerary')">🗓️ 行程與地圖導航</div>
     <div class="nav-tab" onclick="switchSection('expense')">💰 4人同行記帳本</div>
   </div>
 
-  <!-- 區塊一：行程 -->
   <div id="section-itinerary" class="section-view active">
     <div class="day-tabs" id="dayTabs"></div>
     <div class="timeline" id="timelineContainer"></div>
   </div>
 
-  <!-- 區塊二：記帳 -->
   <div id="section-expense" class="section-view">
-    <!-- 成員名稱設定 -->
     <div class="expense-summary">
-      <div style="font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px;">👥 同行 4 人成員設定（可點擊修改名稱）：</div>
+      <div style="font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px;">👥 同行 4 人成員設定：</div>
       <div class="members-config">
         <input type="text" id="m0" value="Gloria" onchange="updateMemberName(0, this.value)">
         <input type="text" id="m1" value="成員 2" onchange="updateMemberName(1, this.value)">
@@ -176,7 +161,6 @@
       </div>
     </div>
 
-    <!-- 總覽統計 -->
     <div class="expense-summary">
       <div class="total-box">
         <span>總花費金額 (THB)</span>
@@ -185,11 +169,10 @@
       <div class="stats-grid" id="statsGrid"></div>
     </div>
 
-    <!-- 新增花費表單 -->
     <div class="expense-form">
       <div class="form-row">
         <label>項目名稱 / 備註</label>
-        <input type="text" id="expTitle" placeholder="例如：計程車費、Somboon 晚餐、按摩">
+        <input type="text" id="expTitle" placeholder="例如：計程車費、按摩、晚餐">
       </div>
       <div style="display: flex; gap: 8px;">
         <div class="form-row" style="flex:1;">
@@ -219,13 +202,11 @@
       <button class="add-btn" onclick="addExpense()">➕ 新增這筆記帳</button>
     </div>
 
-    <!-- 花費明細列表 -->
     <div id="expenseList"></div>
   </div>
 </div>
 
 <script>
-// 行程資料 (含 Google Maps 搜尋連結)
 const itineraryData = [
   {
     day: "Day 1 (周四)",
@@ -325,7 +306,6 @@ function selectDay(i) {
   renderItinerary();
 }
 
-// 記帳系統邏輯
 let memberNames = JSON.parse(localStorage.getItem('bg_members')) || ["Gloria", "成員 2", "成員 3", "成員 4"];
 let expenses = JSON.parse(localStorage.getItem('bg_expenses')) || [];
 
@@ -340,7 +320,8 @@ function updatePayerOptions() {
   const select = document.getElementById('expPayer');
   select.innerHTML = memberNames.map((m, i) => `<option value="${i}">${m}</option>`).join('');
   for(let i=0; i<4; i++) {
-    document.getElementById(`m${i}`).value = memberNames[i];
+    const el = document.getElementById(`m${i}`);
+    if(el) el.value = memberNames[i];
   }
 }
 
@@ -348,7 +329,7 @@ function addExpense() {
   const title = document.getElementById('expTitle').value.trim();
   const amount = parseFloat(document.getElementById('expAmount').value);
   const category = document.getElementById('expCategory').value;
-  ```javascript
+  
   if(!title || isNaN(amount) || amount <= 0) {
     alert('請填寫正確的項目名稱與金額！');
     return;
@@ -422,7 +403,6 @@ function renderExpenses() {
   `).join('');
 }
 
-// 初始化執行
 renderItinerary();
 updatePayerOptions();
 </script>
